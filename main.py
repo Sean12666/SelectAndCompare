@@ -46,7 +46,9 @@ class Player:
 
 if __name__ == "__main__":
     p1 = Player(input("Player1's name: "))
+    print("Name:", p1.getname())
     p2 = Player(input("Player2's name: "))
+    print("Name:", p2.getname())
     seq = input("Enter a sequence:\n").split()
     seq.sort()
     print("Sorted sequence:", seq)
