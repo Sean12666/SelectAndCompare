@@ -45,33 +45,22 @@ class Player:
 
 
 if __name__ == "__main__":
-    p1 = Player(input("Player1's name: "))
-    print("Name:", p1.getname())
-    p2 = Player(input("Player2's name: "))
-    print("Name:", p2.getname())
+    n = int(input("How many players: "))
+    p = []
+    for i in range(n):
+        p.append(Player(input("{0}\tName: ".format(i))))
     seq = input("Enter a sequence:\n").split()
     seq.sort()
     print("Sorted sequence:", seq)
     random.shuffle(seq)
     print("Sequence shuffled.")
-    while len(seq) >= 2:
-        p1.select_item(seq.pop(int(input("{0}, select an item in [0, {1}): ".format(p1.getname(), len(seq))))))
-        p2.select_item(seq.pop(int(input("{0}, select an item in [0, {1}): ".format(p2.getname(), len(seq))))))
-        print("{0}: {1}".format(p1.getname(), p1.getitem()))
-        print("{0}: {1}".format(p2.getname(), p2.getitem()))
-        if p1.getitem() > p2.getitem():
-            print("{0}'s item is greater!".format(p1.getname()))
-            p1.addscore(2)
-        elif p2.getitem() > p1.getitem():
-            print("{0}'s item is greater!".format(p2.getname()))
-            p2.addscore(2)
-        else:
-            print("{0}'s item is as great as {1}'s item.".format(p1.getname(), p2.getname()))
-            p1.addscore(1)
-            p2.addscore(1)
-        print("Score:", p1.getscore(), ":", p2.getscore())
+    while len(seq) >= n:
+        for i in range(n):
+            p[i].select_item(seq.pop(int(input("{0}, select an item in [0, {1}): ".format(p[i].getname(), len(seq))))))
+            print("{0}: {1}".format(p[i].getname(), p[i].getitem()))
+        max(p, key=lambda x: x.getitem()).addscore(2)
     print("Game over!")
-    if p1 != p2:
-        print(p1.getname() if p1 > p2 else p2.getname(), "wins!")
-    else:
-        print("The game is tied.")
+    p.sort(reverse=True)
+    print("No.", "Name", "Score", sep='\t')
+    for num, plr in enumerate(p):
+        print(num, plr.getname(), plr.getscore(), sep='\t')
